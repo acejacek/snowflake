@@ -15,7 +15,7 @@
 Vector2 particles[MAX_PARTICLES] = { 0 };
 size_t count = 1;
 
-Vector2 part = {.x = WIDTH, .y = 0.0f};
+Vector2 part = {.x = WIDTH/2.0f, .y = 0.0f};
 
 void display(Vector2 p)
 {
@@ -23,7 +23,7 @@ void display(Vector2 p)
     for (int i = 0; i < 3; ++i)
     {
         p = Vector2Rotate(p, PI/3.0f);
-        Vector2 r = Vector2Negate(p);
+        Vector2 r = Vector2Negate(p);   // mirrored point
 
         pp = (Vector2){
             .x = p.x + WIDTH/2.0f,
@@ -50,7 +50,7 @@ void new_particle()
     if (count >= MAX_PARTICLES) return;
 
     part.x -= SPEED;
-    part.y += GetRandomValue(-2, 2);
+    part.y += GetRandomValue(-RADIUS, RADIUS);
 
     int lock = 0;
     if (part.x <= 0.0f)
