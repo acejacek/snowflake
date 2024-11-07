@@ -12,19 +12,28 @@
 #define RADIUS 3.0f
 #define MAX_PARTICLES 10000
 
-Vector2 particles[MAX_PARTICLES];
-size_t  count = 0;
+Vector2 particles[MAX_PARTICLES] = { 0 };
+size_t count = 1;
 
 Vector2 part = {.x = WIDTH, .y = 0.0f};
 
 void display(Vector2 p)
 {
-    for (int i = 0; i < 6; ++i)
+    Vector2 pp;
+    for (int i = 0; i < 3; ++i)
     {
         p = Vector2Rotate(p, PI/3.0f);
-        Vector2 pp = (Vector2){
+        Vector2 r = Vector2Negate(p);
+
+        pp = (Vector2){
             .x = p.x + WIDTH/2.0f,
             .y = p.y + HEIGHT/2.0f
+        };
+        DrawCircleV(pp, RADIUS, WHITE);
+
+        pp = (Vector2){
+            .x = r.x + WIDTH/2.0f,
+            .y = r.y + HEIGHT/2.0f
         };
         DrawCircleV(pp, RADIUS, WHITE);
     }
@@ -32,7 +41,7 @@ void display(Vector2 p)
 
 void draw_snowflake()
 {
-    for (size_t i = 0; i < count; ++i)
+    for (size_t i = 1; i < count; ++i)
         display(particles[i]);
 }
 
@@ -49,7 +58,7 @@ void new_particle()
 
     // scan downwards, it's faster.
     // it's most likely, that colision will be with recently added particle
-    for (int i = count - 1; (i >= 0) && (!lock); --i)
+    for (size_t i = count - 1; (i != 0) && (!lock); --i)
         if (Vector2DistanceSqr(part, particles[i]) <= (RADIUS*2.0f)*(RADIUS*2.0f))
             lock = 1;
 
@@ -72,7 +81,7 @@ int main(void)
             IsKeyPressed(KEY_SPACE))
         {
             ClearBackground(BLACK);
-            count = 0;
+            count = 1;
         }
 
         for (int i = 1; i < 100; ++i)
