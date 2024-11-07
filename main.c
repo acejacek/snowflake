@@ -8,7 +8,7 @@
 
 #define WIDTH 900
 #define HEIGHT 900
-#define SPEED 3.0f
+#define SPEED 2.0f
 #define RADIUS 3.0f
 #define MAX_PARTICLES 10000
 
